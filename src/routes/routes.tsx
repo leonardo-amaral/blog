@@ -1,6 +1,8 @@
 import { createBrowserRouter, redirect } from 'react-router-dom'
+import Layout from '../components/layout'
 import Home from '../pages/home'
 import Login from '../pages/login'
+import Posts from '../pages/posts'
 
 type Props = {
   isAuthenticated: boolean
@@ -20,13 +22,23 @@ export const AppRoutes = ({ isAuthenticated }: Props) => {
     },
     {
       path: '/home',
-      element: <Home />,
+      element: <Layout />,
       loader: () => {
         if (!isAuthenticated) {
           return redirect('/')
         }
         return null
-      }
+      },
+      children: [
+        {
+          index: true,
+          element: <Home />
+        },
+        {
+          path: ':postsId',
+          element: <Posts />
+        }
+      ]
     }
   ])
 

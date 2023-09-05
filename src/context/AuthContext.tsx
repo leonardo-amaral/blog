@@ -29,7 +29,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     keyName: '@blogs:token',
     defaultValue: null
   })
-  const [isAuthenticated, setIsAuthenticated] = useState(user ? true : false)
+
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    user != 'null' ? true : false
+  )
 
   const login = async (data: LoginProps) => {
     const response = await api.post('/sessions', data)
