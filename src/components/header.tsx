@@ -1,5 +1,5 @@
-import { Button, Flex, Heading } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
+import { Flex, Heading, Text } from '@chakra-ui/react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 function Header() {
@@ -24,9 +24,28 @@ function Header() {
       <Heading color="white" cursor="pointer" onClick={() => navigate('/home')}>
         Blogs
       </Heading>
-      <Button colorScheme="messenger" onClick={logout}>
-        Log Out
-      </Button>
+      <Flex gap="100px" alignItems="center">
+        <Link to="/" color="white">
+          <Text color="white" fontWeight="medium">
+            Home
+          </Text>
+        </Link>
+        <Link to="/" color="white">
+          <Text color="white" fontWeight="medium">
+            Categories
+          </Text>
+        </Link>
+        <Link to="/" color="white">
+          <Text color="white" fontWeight="medium">
+            Info
+          </Text>
+        </Link>
+        <Link to="/" color="white" onClick={logout}>
+          <Text color="white" fontWeight="medium">
+            Log Out
+          </Text>
+        </Link>
+      </Flex>
     </Flex>
   )
 }

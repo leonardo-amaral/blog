@@ -22,10 +22,14 @@ import {
   Textarea,
   useToast
 } from '@chakra-ui/react'
+import { useQueryClient } from '@tanstack/react-query'
 import JoditEditor from 'jodit-react'
 import { useRef, useState } from 'react'
 import { MdKeyboardArrowDown } from 'react-icons/md'
-import { PostsController } from '../../../controllers/PostsControllers'
+import {
+  PostsController,
+  postsKeys
+} from '../../../controllers/PostsControllers'
 
 function CreateTopicModal({
   isOpen,
@@ -40,6 +44,8 @@ function CreateTopicModal({
 
   const editorRef = useRef(null)
 
+  const queryClient = useQueryClient()
+
   const toast = useToast()
 
   const { createPost } = PostsController()
@@ -49,7 +55,7 @@ function CreateTopicModal({
       title,
       description,
       data: content,
-      categorie: categoriesList
+      categorie: selectedCategories
     }
 
     const request = await createPost(data)
@@ -62,6 +68,7 @@ function CreateTopicModal({
         isClosable: true
       })
       onClose()
+      queryClient.invalidateQueries([postsKeys.listPosts])
     }
   }
 
@@ -107,7 +114,7 @@ function CreateTopicModal({
     <Modal size="5xl" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent h="fit-content">
-        <ModalBody minH="400px" h="100%">
+        <ModalBody minH="500px" h="100%">
           <Tabs isFitted variant="enclosed">
             <TabList w="100%">
               <Tab w="35%">Configure your post</Tab>
@@ -219,6 +226,12 @@ function CreateTopicModal({
                       </MenuList>
                     </Menu>
                   </Stack>
+                  {/* <Stack w="100%">
+                    <Text fontWeight="bold" color="black">
+                      Image:
+                    </Text>
+                    <Input type="file" />
+                  </Stack> */}
                 </Flex>
               </TabPanel>
               <TabPanel>

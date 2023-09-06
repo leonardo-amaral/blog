@@ -11,6 +11,7 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
+import { MdCreate } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import CreateTopicModal from '../../components/modal/createTopic'
 import { PostsController, postsKeys } from '../../controllers/PostsControllers'
@@ -33,7 +34,7 @@ function Home() {
         <Flex borderBottom="1px solid black" justifyContent="space-between">
           <Heading>Feed</Heading>
           <Button colorScheme="messenger" onClick={onOpen}>
-            Create
+            <MdCreate />
           </Button>
         </Flex>
         <Flex minH="500px" flexWrap="wrap" w="100%" h="100%" gap="10px">
@@ -59,16 +60,23 @@ function Home() {
                 <CardBody>
                   <Flex w="100%" h="100%" flexDir="column" gap="2px">
                     <Flex alignItems="center" justifyContent="space-between">
-                      <Text fontSize="24px" color="white">
+                      <Text
+                        h="40px"
+                        w="100%"
+                        overflow="hidden"
+                        fontSize="24px"
+                        color="white"
+                      >
                         {item.title}
                       </Text>
                     </Flex>
-                    <Text fontSize="13px" color="gray.300">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Consequatur, aut! Nulla animi sequi nisi commodi,
-                      assumenda eligendi atque quisquam voluptatum, modi
-                      reiciendis deleniti. Incidunt, fugit? Dolor iste
-                      distinctio blanditiis alias.
+                    <Text
+                      h="100px"
+                      fontSize="13px"
+                      color="gray.300"
+                      overflow="hidden"
+                    >
+                      {item.description}
                     </Text>
                     <Text fontSize="12px" color="gray.500">
                       {new Date(item.createdAt || '').toUTCString()}

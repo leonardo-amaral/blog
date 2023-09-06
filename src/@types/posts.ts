@@ -4,6 +4,7 @@ interface PostsType {
   createdAt: string
   updatedAt: string
   authorId: string
+  description: string
 }
 
 interface ListPostsType {
