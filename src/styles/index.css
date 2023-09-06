@@ -1,0 +1,52 @@
+@import '../../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-icons/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-lists/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../../node_modules/@syncfusion/ej2-richtexteditor/styles/material.css';
+
+#rteMarkdown .e-richtexteditor textarea.e-content {
+  float: left;
+}
+
+#rteMarkdown .e-icon-btn.e-active .e-md-preview::before {
+  content: '\e350';
+}
+#rteMarkdown .e-icon-btn .e-md-preview::before {
+  content: '\e345';
+}
+.bootstrap4 #rteMarkdown .e-icon-btn.e-active .e-md-preview::before {
+  content: '\e790';
+}
+
+.bootstrap4 #rteMarkdown .e-icon-btn .e-md-preview::before {
+  content: '\e787';
+}
+
+.tailwind #rteMarkdown .e-icon-btn.e-active .e-md-preview::before,
+.tailwind-dark #rteMarkdown .e-icon-btn.e-active .e-md-preview::before,
+.fluent #rteMarkdown .e-icon-btn.e-active .e-md-preview::before,
+.fluent-dark #rteMarkdown .e-icon-btn.e-active .e-md-preview::before,
+.bootstrap5 #rteMarkdown .e-icon-btn.e-active .e-md-preview::before,
+.bootstrap5-dark #rteMarkdown .e-icon-btn.e-active .e-md-preview::before {
+  content: '\e80e';
+}
+
+.tailwind #rteMarkdown .e-icon-btn .e-md-preview::before,
+.tailwind-dark #rteMarkdown .e-icon-btn .e-md-preview::before,
+.bootstrap5 #rteMarkdown .e-icon-btn .e-md-preview::before,
+.bootstrap5-dark #rteMarkdown .e-icon-btn .e-md-preview::before,
+.fluent #rteMarkdown .e-icon-btn .e-md-preview::before,
+.fluent-dark #rteMarkdown .e-icon-btn .e-md-preview::before,
+.material3 #rteMarkdown .e-icon-btn .e-md-preview::before,
+.material3-dark #rteMarkdown .e-icon-btn .e-md-preview::before {
+  content: '\e7de';
+}
+
+#rteMarkdown .content-wrapper {
+  width: auto;
+  margin: 0;
+}

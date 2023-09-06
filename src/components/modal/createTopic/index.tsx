@@ -1,9 +1,16 @@
 import {
+  Button,
+  Checkbox,
   Flex,
   Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Modal,
   ModalBody,
   ModalContent,
+  ModalFooter,
   ModalOverlay,
   Stack,
   Tab,
@@ -15,9 +22,9 @@ import {
   Textarea,
   useToast
 } from '@chakra-ui/react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import { CKEditor } from '@ckeditor/ckeditor5-react'
+import JoditEditor from 'jodit-react'
 import { useRef, useState } from 'react'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 import { PostsController } from '../../../controllers/PostsControllers'
 
 function CreateTopicModal({
@@ -27,7 +34,10 @@ function CreateTopicModal({
   isOpen: boolean
   onClose: () => void
 }) {
-  const [postContent, setPostContent] = useState<string>()
+  const [title, setTitle] = useState<string>('')
+  const [description, setDescription] = useState<string>('')
+  const [selectedCategories, setSelectedCatergories] = useState<string[]>([])
+
   const editorRef = useRef(null)
 
   const toast = useToast()
@@ -35,7 +45,14 @@ function CreateTopicModal({
   const { createPost } = PostsController()
 
   const handleSubmitPost = async () => {
-    const request = await createPost(postContent)
+    const data = {
+      title,
+      description,
+      data: content,
+      categorie: categoriesList
+    }
+
+    const request = await createPost(data)
     if (request != null) {
       toast({
         title: 'Post created with success!.',
@@ -48,11 +65,49 @@ function CreateTopicModal({
     }
   }
 
+  const onChangeCheckbox = async (id: string) => {
+    setSelectedCatergories((oldState: string[]) => {
+      const copy = [...oldState]
+
+      const index = copy.indexOf(id)
+
+      if (index === -1) {
+        copy.push(id)
+      } else {
+        copy.splice(index, 1)
+      }
+      return copy
+    })
+  }
+
+  const editor = useRef(null)
+  const [content, setContent] = useState('')
+
+  const config = {
+    placeholder: 'Start typings...',
+    readonly: false
+  }
+
+  const categoriesList = [
+    'movies',
+    'science',
+    'nature',
+    'foods',
+    'universe',
+    'cars',
+    'technology',
+    'history',
+    'war',
+    'culture'
+  ]
+
+  console.log(selectedCategories)
+
   return (
     <Modal size="5xl" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent h="500px">
-        <ModalBody>
+      <ModalContent h="fit-content">
+        <ModalBody minH="400px" h="100%">
           <Tabs isFitted variant="enclosed">
             <TabList w="100%">
               <Tab w="35%">Configure your post</Tab>
@@ -79,13 +134,19 @@ function CreateTopicModal({
                         Title:
                       </Text>
                       <Text fontWeight="normal" color="gray.400">
-                        0/35
+                        {`${title?.length}/30`}
                       </Text>
                     </Flex>
                     <Input
                       type="Title"
                       placeholder="How Jhon Doe born."
                       border=" 1px solid #007cb6"
+                      value={title}
+                      onChange={e => {
+                        if (e.target.value.length <= 30) {
+                          setTitle(e.target.value)
+                        }
+                      }}
                     />
                   </Stack>
                   <Stack w="100%">
@@ -98,18 +159,79 @@ function CreateTopicModal({
                         Description:
                       </Text>
                       <Text fontWeight="normal" color="gray.400">
-                        0/300
+                        {`${description?.length}/300`}
                       </Text>
                     </Flex>
                     <Textarea
+                      h="fit-content"
+                      value={description}
                       placeholder="Here is a sample placeholder"
                       border=" 1px solid #007cb6"
+                      onChange={e => {
+                        if (e.target.value.length <= 300) {
+                          setDescription(e.target.value)
+                        }
+                      }}
                     />
+                  </Stack>
+                  <Stack w="100%">
+                    <Flex
+                      flexDir="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Text fontWeight="bold" color="black">
+                        Categories:
+                      </Text>
+                    </Flex>
+                    <Menu closeOnSelect={false}>
+                      <MenuButton
+                        as={Button}
+                        rightIcon={<MdKeyboardArrowDown />}
+                      >
+                        Select categories
+                      </MenuButton>
+                      <MenuList w="100%">
+                        {categoriesList.map((item, index) => (
+                          <MenuItem
+                            key={index}
+                            w="760px"
+                            onClick={() => onChangeCheckbox(item)}
+                          >
+                            <Flex w="100%" gap="1%">
+                              <Checkbox
+                                isChecked={selectedCategories?.some(
+                                  _i => _i === item
+                                )}
+                                colorScheme="blue"
+                                onChange={event => {
+                                  event.preventDefault()
+                                  event.stopPropagation()
+                                  onChangeCheckbox(item)
+                                }}
+                              />
+                              <Text fontWeight="bold">
+                                {item.toUpperCase()}
+                              </Text>
+                            </Flex>
+                          </MenuItem>
+                        ))}
+                      </MenuList>
+                    </Menu>
                   </Stack>
                 </Flex>
               </TabPanel>
               <TabPanel>
-                <CKEditor
+                <JoditEditor
+                  ref={editor}
+                  value={content}
+                  config={config}
+                  onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                  onChange={newContent => {
+                    console.log(newContent)
+                  }}
+                />
+                {/* <CKEditor
                   editor={ClassicEditor}
                   data="Write your register here..."
                   onReady={editor => {
@@ -119,21 +241,27 @@ function CreateTopicModal({
                     const data = editor.getData()
                     setPostContent(data)
                   }}
-                />
+                /> */}
               </TabPanel>
               <TabPanel>
-                <p>two!</p>
+                <div dangerouslySetInnerHTML={{ __html: content }}></div>
               </TabPanel>
             </TabPanels>
           </Tabs>
         </ModalBody>
 
-        {/* <Button colorScheme="red" mr={3} onClick={onClose}>
+        <ModalFooter>
+          <Button colorScheme="red" mr={3} onClick={onClose}>
             Close
           </Button>
-          <Button colorScheme="messenger" onClick={handleSubmitPost}>
+          <Button
+            isDisabled={!title || !description || !content ? true : false}
+            colorScheme="messenger"
+            onClick={handleSubmitPost}
+          >
             Publish
-          </Button> */}
+          </Button>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   )

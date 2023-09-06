@@ -36,42 +36,44 @@ function Home() {
             Create
           </Button>
         </Flex>
-        <Flex flexWrap="wrap" w="100%" h="100%" gap="10px">
+        <Flex minH="500px" flexWrap="wrap" w="100%" h="100%" gap="10px">
           {isLoading ? (
             <Skeleton height="60%" />
           ) : (
             data?.posts.map((item, index) => (
               <Card
                 w="365px"
-                h="430px"
+                h="450px"
                 backgroundColor="gray.900"
                 onClick={() => navigate(`/home/${item.id}`)}
                 cursor="pointer"
               >
                 <CardHeader>
                   <Image
+                    borderRadius="5"
                     objectFit="cover"
                     src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
                     alt="Caffe Latte"
                   />
                 </CardHeader>
                 <CardBody>
-                  <Flex alignItems="center" justifyContent="space-between">
-                    <Text fontSize="24px" color="white">
-                      {item.title}
+                  <Flex w="100%" h="100%" flexDir="column" gap="2px">
+                    <Flex alignItems="center" justifyContent="space-between">
+                      <Text fontSize="24px" color="white">
+                        {item.title}
+                      </Text>
+                    </Flex>
+                    <Text fontSize="13px" color="gray.300">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Consequatur, aut! Nulla animi sequi nisi commodi,
+                      assumenda eligendi atque quisquam voluptatum, modi
+                      reiciendis deleniti. Incidunt, fugit? Dolor iste
+                      distinctio blanditiis alias.
                     </Text>
-                    -
                     <Text fontSize="12px" color="gray.500">
                       {new Date(item.createdAt || '').toUTCString()}
                     </Text>
                   </Flex>
-                  <Text fontSize="13px" color="gray.300">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Consequatur, aut! Nulla animi sequi nisi commodi, assumenda
-                    eligendi atque quisquam voluptatum, modi reiciendis
-                    deleniti. Incidunt, fugit? Dolor iste distinctio blanditiis
-                    alias.
-                  </Text>
                 </CardBody>
               </Card>
             ))

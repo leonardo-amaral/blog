@@ -5,7 +5,7 @@ import Header from './header'
 
 function Layout() {
   return (
-    <Stack w="full" h="full" spacing={0}>
+    <Stack w="full" h="full" spacing={0} backgroundColor="gray.100">
       <Header />
       <Outlet />
       <Footer />

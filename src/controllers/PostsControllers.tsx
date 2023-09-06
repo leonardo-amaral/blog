@@ -1,6 +1,12 @@
 import { ListPostsType, PostsContentType } from '../@types/posts'
 import { useApi } from '../hooks/useApi'
 
+interface CreatePostProps {
+  title: string | undefined
+  description: string | undefined
+  data: string | undefined
+}
+
 export const postsKeys = {
   listPosts: 'list-posts',
   getPostsById: 'get-posts-by-id'
@@ -20,11 +26,8 @@ export const PostsController = () => {
     return response.data
   }
 
-  const createPost = async (data: string | undefined) => {
-    const response = await api.post(`posts/`, {
-      title: 'mocked-title',
-      data
-    })
+  const createPost = async (data: CreatePostProps) => {
+    const response = await api.post(`posts/`, data)
 
     return response.data
   }
